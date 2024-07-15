@@ -128,8 +128,12 @@ class ChatQnAGateway(Gateway):
                 and self.megaservice.services[node].service_type == ServiceType.LLM
             ):
                 return response
+
         last_node = self.megaservice.all_leaves()[-1]
-        response = result_dict[last_node]["text"]
+        if last_node in result_dict:    # llm has non-stream output, valid input
+            response = result_dict[last_node]["text"]
+        else: # guardrail detects invalid inputs!
+            response = result_dict["opea_service@guardrails_tgi_gaudi"]["text"]
         choices = []
         usage = UsageInfo()
         choices.append(

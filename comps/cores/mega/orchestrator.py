@@ -51,6 +51,11 @@ class ServiceOrchestrator(DAG):
 
                     # traverse the current node's downstream nodes and execute if all one's predecessors are finished
                     downstreams = self.downstream(node)
+                    # remove all the black nodes that are skipped to be forwarded to
+                    if hasattr(response, "downstream_black_list"):
+                        for black_node in response.downstream_black_list:
+                            print(f"skip forwardding to {black_node}...")
+                            downstreams.remove(black_node)
                     for d_node in downstreams:
                         if all(i in result_dict for i in self.predecessors(d_node)):
                             inputs = self.process_outputs(self.predecessors(d_node), result_dict)
