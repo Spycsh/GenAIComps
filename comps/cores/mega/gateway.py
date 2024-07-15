@@ -173,10 +173,8 @@ class CodeGenGateway(Gateway):
                 and node == list(self.megaservice.services.keys())[-1]
                 and self.megaservice.services[node].service_type == ServiceType.LLM
             ):
-                print("==================")
                 return response
         last_node = self.megaservice.all_leaves()[-1]
-        print("++++++++++++++++")
         response = result_dict[last_node]["text"]
         choices = []
         usage = UsageInfo()
