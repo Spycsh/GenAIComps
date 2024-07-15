@@ -73,7 +73,6 @@ def safety_guard(input: TextDoc) -> TextDoc:
         res = TextDoc(text=f"Violated policies: {policy_violations}, please check your input.", downstream_black_list=["opea_service@embedding_tei_langchain"])
     else:
         res = TextDoc(text=input.text)
-    print(res)
     return res
 
 
