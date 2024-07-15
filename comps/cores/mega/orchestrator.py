@@ -47,6 +47,8 @@ class ServiceOrchestrator(DAG):
                 done, pending = await asyncio.wait(pending, return_when=asyncio.FIRST_COMPLETED)
                 for done_task in done:
                     response, node = await done_task
+                    print(f"--------------{node}")
+                    print(response)
                     self.dump_outputs(node, response, result_dict)
 
                     # traverse the current node's downstream nodes and execute if all one's predecessors are finished
