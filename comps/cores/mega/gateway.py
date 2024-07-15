@@ -127,8 +127,13 @@ class ChatQnAGateway(Gateway):
                 and node == list(self.megaservice.services.keys())[-1]
                 and self.megaservice.services[node].service_type == ServiceType.LLM
             ):
+                print("========")
+                print(node)
+                print(result_dict)
                 return response
 
+        print("+++++++++")
+        print(result_dict)
         last_node = self.megaservice.all_leaves()[-1]
         if last_node in result_dict:    # llm has non-stream output, valid input
             response = result_dict[last_node]["text"]
