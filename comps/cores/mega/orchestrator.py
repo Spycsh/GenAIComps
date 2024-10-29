@@ -209,11 +209,14 @@ class ServiceOrchestrator(DAG):
             else:
                 input_data = inputs
             async with session.post(endpoint, json=input_data) as response:
-                if response.content_type == "audio/wav":
-                    audio_data = await response.read()
+                if response.content_type in ["audio/wav", "video/mp4"]:
+                    data = await response.read()
                     data = self.align_outputs(
-                        audio_data, cur_node, inputs, runtime_graph, llm_parameters_dict, **kwargs
+                        data, cur_node, inputs, runtime_graph, llm_parameters_dict, **kwargs
                     )
+                # elif response.content_type == "video/mp4":
+                #     response = self.align_outputs(, cur_node, inputs, runtime_graph, llm_parameters_dict, **kwargs)
+                #     return response, cur_node
                 else:
                     # Parse as JSON
                     data = await response.json()
